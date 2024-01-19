@@ -8,12 +8,30 @@ let searchResults = [];
 let results = [];
 let favorites = [];
 
+function renderFavorites(data) {
+    favoritesList.innerHTML = "";
+    for (let i = 0; i < data.length; i++) {
+        const addItem = document.createElement("li");
+        const addImg = document.createElement("img");
+        const addText = document.createElement("h4");
+        const addTitle = document.createTextNode(data[i].title);
+        addImg.src = data[i].img;
+        addImg.alt = "No image available for this series";
+        addText.appendChild(addTitle);
+        addItem.appendChild(addText);
+        addItem.appendChild(addImg);
+        addItem.setAttribute("class", "favorites__li");
+        addImg.setAttribute("class", "favorites__img");
+        favoritesList.appendChild(addItem);
+    }
+}
+
 function handleFavorite(a, b, event){
     event.currentTarget.setAttribute("class", "results__li--fav");
-    console.log(event.currentTarget);
     const anime = { title: "", img: "" };
     anime.title = a;
     anime.img = b;
+    console.log(anime);
     favorites.push(anime);
     renderFavorites(favorites); 
 }
@@ -39,43 +57,6 @@ function renderResults(data) {
       );
     }
 }
-
-// function renderResults(anime) {
-//   const addItem = document.createElement("li");
-//   const addImg = document.createElement("img");
-//   const addText = document.createElement("h4");
-//   const addTitle = document.createTextNode(anime.title);
-//   addImg.src = anime.img;
-//   addImg.alt = "No image available for this series";
-//   addText.appendChild(addTitle);
-//   addItem.appendChild(addText);
-//   addItem.appendChild(addImg);
-//   addItem.setAttribute("class", "results__li");
-//   addImg.setAttribute("class", "results__img");
-//   resultsList.appendChild(addItem);
-//   addItem.addEventListener("click", ()=>{
-//     favorites.title = anime.title;
-//     favorites.img = anime.img;
-//     favorites.push(anime);
-//     renderFavorites(favorites);   
-// });
-// }
-
-function renderFavorites() {
-    const addItem = document.createElement("li");
-    const addImg = document.createElement("img");
-    const addText = document.createElement("h4");
-    const addTitle = document.createTextNode(favorites.title);
-    addImg.src = favorites.img;
-    addImg.alt = "No image available for this series";
-    addText.appendChild(addTitle);
-    addItem.appendChild(addText);
-    addItem.appendChild(addImg);
-    addItem.setAttribute("class", "favorites__li");
-    addImg.setAttribute("class", "favorites__img");
-    favoritesList.appendChild(addItem);
-}
-
 
 function getList() {
   for (let i = 0; i < searchResults.length; i++) {
