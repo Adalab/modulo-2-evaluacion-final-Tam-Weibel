@@ -9,54 +9,57 @@ let results = [];
 let favorites = [];
 
 function renderFavorites(data) {
-    favoritesList.innerHTML = "";
-    for (let i = 0; i < data.length; i++) {
-        const addItem = document.createElement("li");
-        const addImg = document.createElement("img");
-        const addText = document.createElement("h4");
-        const addTitle = document.createTextNode(data[i].title);
-        addImg.src = data[i].img;
-        addImg.alt = "No image available for this series";
-        addText.appendChild(addTitle);
-        addItem.appendChild(addText);
-        addItem.appendChild(addImg);
-        addItem.setAttribute("class", "favorites__li");
-        addImg.setAttribute("class", "favorites__img");
-        favoritesList.appendChild(addItem);
-    }
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+  favoritesList.innerHTML = "";
+  for (let i = 0; i < data.length; i++) {
+    const addItem = document.createElement("li");
+    const addImg = document.createElement("img");
+    const addText = document.createElement("h4");
+    const addTitle = document.createTextNode(data[i].title);
+    addImg.src = data[i].img;
+    addImg.alt = "No image available for this series";
+    addText.appendChild(addTitle);
+    addItem.appendChild(addText);
+    addItem.appendChild(addImg);
+    addItem.setAttribute("class", "favorites__li");
+    addImg.setAttribute("class", "favorites__img");
+    favoritesList.appendChild(addItem);
+  }
 }
 
-function handleFavorite(a, b, event){
-    event.currentTarget.setAttribute("class", "results__li--fav");
-    const anime = { title: "", img: "" };
-    anime.title = a;
-    anime.img = b;
-    console.log(anime);
+function handleFavorite(dataTitle, dataImg, event) {
+  event.currentTarget.classList.add("results__li--fav");
+  const anime = { title: dataTitle, img: dataImg };
+  const alreadyFav = favorites.find(function (fav) {
+    return fav.title === dataTitle;
+  });
+  if (!alreadyFav) {
     favorites.push(anime);
-    renderFavorites(favorites); 
+    renderFavorites(favorites);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  } else {
+    console.log("Anime is already in favorites");
+  }
 }
 
 function renderResults(data) {
-    for (let i = 0; i < data.length; i++) {
-      const addItem = document.createElement("li");
-      const addImg = document.createElement("img");
-      const addText = document.createElement("h4");
-      const addTitle = document.createTextNode(data[i].title);
-      addImg.src = data[i].img;
-      addImg.alt = "No image available for this series";
-      addText.appendChild(addTitle);
-      addItem.appendChild(addText);
-      addItem.appendChild(addImg);
-      addItem.setAttribute("class", "results__li");
-      addImg.setAttribute("class", "results__img");
-      resultsList.appendChild(addItem);
-  
-      addItem.addEventListener("click", function(event){
-        handleFavorite(data[i].title, data[i].img, event)
-      }
-      );
-    }
+  for (let i = 0; i < data.length; i++) {
+    const addItem = document.createElement("li");
+    const addImg = document.createElement("img");
+    const addText = document.createElement("h4");
+    const addTitle = document.createTextNode(data[i].title);
+    addImg.src = data[i].img;
+    addImg.alt = "No image available for this series";
+    addText.appendChild(addTitle);
+    addItem.appendChild(addText);
+    addItem.appendChild(addImg);
+    addItem.setAttribute("class", "results__li");
+    addImg.setAttribute("class", "results__img");
+    resultsList.appendChild(addItem);
+
+    addItem.addEventListener("click", function (event) {
+      handleFavorite(data[i].title, data[i].img, event);
+    });
+  }
 }
 
 function getList() {
@@ -87,12 +90,9 @@ function handleSearch(event) {
       getList(searchResults);
     })
     .catch(function (error) {
-        console.error("Fetch error:", error);
+      console.error("Fetch error:", error);
     });
 }
 searchBtn.addEventListener("click", handleSearch);
-const savedTasks = JSON.parse(localStorage.getItem('favorites'));
-console.log(savedTasks.length);
-
-
-
+// const savedFavs = JSON.parse(localStorage.getItem("favorites"));
+// console.log(savedFavs.length);
