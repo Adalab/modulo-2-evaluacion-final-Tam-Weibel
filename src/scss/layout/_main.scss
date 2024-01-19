@@ -6,6 +6,11 @@
     padding: 30px;
 }
 
+.title{
+    border-bottom: 2px solid $shade;
+    padding-bottom: 10px;
+}
+
 .results{
     @include list-box();
     &__list{
@@ -16,7 +21,13 @@
     }
     &__li{
         @include li-element();
+        &--fav{
+            @include li-element();
+            border: 3px solid rgb(35, 151, 151);
+            background-color: $yellow;
+        }
     }
+
     &__img{
         max-height: 300px;
         max-width: 200px;

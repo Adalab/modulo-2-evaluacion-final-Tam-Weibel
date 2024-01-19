@@ -2,13 +2,15 @@
 $title: Bangers;
 $text: Roboto;
 // colors
-
+$blue: rgb(179, 231, 231);
+$yellow: rgb(237, 237, 107);
+$shade: #422800;
 
 @mixin list-box(){
-    border: 2px solid #422800;
+    border: 2px solid $shade;
     border-radius: 5px;
-    box-shadow: #422800 4px 4px 0 0;
-    color: #422800;
+    box-shadow: $shade 4px 4px 0 0;
+    color: $shade;
     text-align: center;
     padding: 10px;
     background-color: #fbeee0;
@@ -17,10 +19,10 @@ $text: Roboto;
 @mixin header-box(){
     font-family: $text;
     background-color: #fbeee0;
-    border: 2px solid #422800;
+    border: 2px solid $shade;
     border-radius: 30px;
-    box-shadow: #422800 4px 4px 0 0;
-    color: #422800;
+    box-shadow: $shade 4px 4px 0 0;
+    color: $shade;
     font-size: 18px;
     line-height: 25px;
 }
@@ -30,7 +32,7 @@ $text: Roboto;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    border: 2px solid rgb(179, 231, 231);
+    border: 2px solid $blue;
     margin: 10px;
     padding: 10px;
 }
