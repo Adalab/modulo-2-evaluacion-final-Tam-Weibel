@@ -8,35 +8,13 @@ let searchResults = [];
 let results = [];
 let favorites = [];
 
-
-function renderResults(anime) {
-  const addItem = document.createElement("li");
-  const addImg = document.createElement("img");
-  const addText = document.createElement("h4");
-  const addTitle = document.createTextNode(anime.title);
-  addImg.src = anime.img;
-  addImg.alt = "No image available for this series";
-  addText.appendChild(addTitle);
-  addItem.appendChild(addText);
-  addItem.appendChild(addImg);
-  addItem.setAttribute("class", "results__li");
-  addImg.setAttribute("class", "results__img");
-  resultsList.appendChild(addItem);
-  addItem.addEventListener("click", ()=>{
-    favorites.title = anime.title;
-    favorites.img = anime.img;
-    favorites.push(anime);
-    renderFavorites(favorites);
-    
-});
-}
-
-function renderFavorites() {
+function renderFavorites(data) {
+  for (let i = 0; i < data.length; i++) {
     const addItem = document.createElement("li");
     const addImg = document.createElement("img");
     const addText = document.createElement("h4");
-    const addTitle = document.createTextNode(favorites.title);
-    addImg.src = favorites.img;
+    const addTitle = document.createTextNode(data[i].title);
+    addImg.src = data[i].img;
     addImg.alt = "No image available for this series";
     addText.appendChild(addTitle);
     addItem.appendChild(addText);
@@ -44,8 +22,53 @@ function renderFavorites() {
     addItem.setAttribute("class", "favorites__li");
     addImg.setAttribute("class", "favorites__img");
     favoritesList.appendChild(addItem);
+  }
 }
 
+function alreadyFavorite(data) {
+  for (let i = 0; i < favorites.length; i++) {
+    if (favorites[i].title === data.title) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function handleFavorite(a, b) {
+    // console.log('inside handleFavorite');
+  const favAnime = { title: "", img: "" };
+  favAnime.title = a;
+  favAnime.img = b;
+    // console.log(favAnime);
+  const alreadyFav = alreadyFavorite(favAnime);
+  if (!alreadyFav) {
+    favorites.push(favAnime);
+    renderFavorites(favorites);
+  } else {
+    console.log("Anime is already in favorites");
+  }
+}
+
+function renderResults(data) {
+  for (let i = 0; i < data.length; i++) {
+    const addItem = document.createElement("li");
+    const addImg = document.createElement("img");
+    const addText = document.createElement("h4");
+    const addTitle = document.createTextNode(data[i].title);
+    addImg.src = data[i].img;
+    addImg.alt = "No image available for this series";
+    addText.appendChild(addTitle);
+    addItem.appendChild(addText);
+    addItem.appendChild(addImg);
+    addItem.setAttribute("class", "results__li");
+    addImg.setAttribute("class", "results__img");
+    resultsList.appendChild(addItem);
+    
+    addItem.addEventListener("click", function() {
+        handleFavorite(data[i].title, data[i].img);
+      });
+    }
+}
 
 function getList() {
   for (let i = 0; i < searchResults.length; i++) {
@@ -59,7 +82,7 @@ function getList() {
       anime.img = "../images/No-Image.svg";
     }
     results.push(anime);
-    renderResults(anime);
+    renderResults(results);
   }
 }
 
@@ -70,21 +93,12 @@ function handleSearch(event) {
     .then(function (response) {
       return response.json();
     })
-    .then(function (data) {
-      searchResults = data.data;
+    .then(function (info) {
+      searchResults = info.data;
       getList(searchResults);
-      renderResults(searchResults);
     })
     .catch(function (error) {
-        console.error("Fetch error:", error);
+      console.error("Fetch error:", error);
     });
 }
 searchBtn.addEventListener("click", handleSearch);
-
-// let listItem = document.querySelector(".results__li");
-
-// console.log(listItem);
-
-
-
-
