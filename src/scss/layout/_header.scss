@@ -1,5 +1,5 @@
 .header{
-  background-color: rgb(179, 231, 231);
+  background-color: $blue;
   padding: 50px;
   font-family: $title;
   text-align: center;
@@ -14,10 +14,10 @@
     @include header-box();
   }
   &__btn:hover {
-    background-color: rgb(237, 237, 107);
+    background-color: $yellow;
   }
   &__btn:active {
-    box-shadow: #422800 2px 2px 0 0;
+    box-shadow: $shade 2px 2px 0 0;
     transform: translate(2px, 2px);
   }
   &__input{

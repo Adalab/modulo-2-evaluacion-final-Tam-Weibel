@@ -24,6 +24,7 @@ function renderFavorites(data) {
         addImg.setAttribute("class", "favorites__img");
         favoritesList.appendChild(addItem);
     }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
 function handleFavorite(a, b, event){
@@ -90,7 +91,8 @@ function handleSearch(event) {
     });
 }
 searchBtn.addEventListener("click", handleSearch);
-
+const savedTasks = JSON.parse(localStorage.getItem('favorites'));
+console.log(savedTasks.length);
 
 
 

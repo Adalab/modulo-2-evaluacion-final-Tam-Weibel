@@ -3,8 +3,10 @@ $title: Bangers;
 $text: Roboto;
 // colors
 $blue: rgb(179, 231, 231);
-$yellow: rgb(237, 237, 107);
+$yellow: rgb(248, 248, 128);
 $shade: #422800;
+$purple: rgb(222, 195, 241);
+$background: #fbeee0;
 
 @mixin list-box(){
     border: 2px solid $shade;
@@ -13,12 +15,12 @@ $shade: #422800;
     color: $shade;
     text-align: center;
     padding: 10px;
-    background-color: #fbeee0;
+    background-color: $background;
 }
 
 @mixin header-box(){
     font-family: $text;
-    background-color: #fbeee0;
+    background-color: $background;
     border: 2px solid $shade;
     border-radius: 30px;
     box-shadow: $shade 4px 4px 0 0;
