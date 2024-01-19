@@ -9,16 +9,8 @@
     margin-left: 10px;
     display: inline-block;
     padding: 0 18px;
-    font-family: $text;
-    background-color: #fbeee0;
-    border: 2px solid #422800;
-    border-radius: 30px;
-    box-shadow: #422800 4px 4px 0 0;
-    color: #422800;
-    font-size: 18px;
-    line-height: 25px;
     text-align: center;
-    // text-decoration: none;
+    @include header-box();
   }
   &__btn:hover {
     background-color: rgb(237, 237, 107);
@@ -29,14 +21,6 @@
   }
   &__input{
     padding-left: 15px;
-    font-family: $text;
-    background-color: #fbeee0;
-    border: 2px solid #422800;
-    border-radius: 30px;
-    box-shadow: #422800 4px 4px 0 0;
-    color: #422800;
-    font-size: 18px;
-    line-height: 25px;
-    // text-decoration: none;
+    @include header-box();
   }
 }
