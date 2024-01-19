@@ -68,7 +68,7 @@ function getList() {
       anime.img ===
       "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png"
     ) {
-      anime.img = "../images/No-Image.svg";
+      anime.img = "./images/No-Image.svg";
     }
     results.push(anime);
   }
