@@ -7,6 +7,7 @@ const favoritesList = document.querySelector(".js-favorites-list");
 let searchResults = [];
 let anime = { title: "", img: "" };
 let results = [];
+let favorites =[];
 
 function renderResults() {
     const addItem = document.createElement("li");
@@ -25,22 +26,26 @@ function renderResults() {
 
 function getList() {
   for (let i = 0; i < searchResults.length; i++) {
-    anime.title = searchResults[i].title;
+    anime.title = searchResults[i].titles[1].title;
     anime.img = searchResults[i].images.webp.image_url;
+    if(anime.img === 'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png'){
+        anime.img = '../images/No-Image.svg'
+    }
     results.push(anime);
-    console.log(anime);
     renderResults(anime);
   }
 }
 
 function handleSearch(event) {
   event.preventDefault;
-  fetch(`https://api.jikan.moe/v4/anime?q=${userInput.value}`)
+  let inputValue = userInput.value.toLowerCase();
+  fetch(`https://api.jikan.moe/v4/anime?q=${inputValue}`)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
       searchResults = data.data;
+      console.log(searchResults);
       getList(searchResults);
       renderResults(searchResults);
     });
