@@ -7,7 +7,7 @@ const resultsList = document.querySelector(".js-results-list");
 const favoritesList = document.querySelector(".js-favorites-list");
 let searchResults = [];
 let results = [];
-let favorites = JSON.parse(localStorage.getItem("favorites"));
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 function renderFavorites(data) {
   favoritesList.innerHTML = "";
@@ -16,19 +16,18 @@ function renderFavorites(data) {
                         <p>${data[i].title}</p>
                         <img src="${data[i].img}" alt="${data[i].title}" class="favorites__img">
                     </article>`;
-    console.log(favCard);
-    favoritesList.insertAdjacentHTML('beforeend', favCard);
-    }
-} 
+    favoritesList.insertAdjacentHTML("beforeend", favCard);
+  }
+}
 
-function handleFavorite(dataTitle, dataImg, event) {
+function handleFavorite(favTitle, favImg, event) {
   event.currentTarget.classList.add("results__card--fav");
-  const anime = { title: dataTitle, img: dataImg };
+  const anime = { title: favTitle, img: favImg };
   if (!favorites) {
     favorites = [];
   }
   const alreadyFav = favorites.find(function (fav) {
-    return fav.title === dataTitle;
+    return fav.title === favTitle;
   });
   if (!alreadyFav) {
     favorites.push(anime);
@@ -52,6 +51,13 @@ function renderResults(data) {
     addItem.appendChild(addImg);
     addItem.setAttribute("class", "results__card");
     addImg.setAttribute("class", "results__img");
+
+    const alreadyFav = favorites.find(function (fav) {
+      return fav.title === data[i].title;
+    });
+    if (alreadyFav) {
+      addItem.classList.add("results__card--fav");
+    }
     resultsList.appendChild(addItem);
 
     addItem.addEventListener("click", function (event) {
@@ -107,7 +113,3 @@ function handleReset(event) {
 
 searchBtn.addEventListener("click", handleSearch);
 resetBtn.addEventListener("click", handleReset);
-
-if (favorites && favorites.length) {
-  renderFavorites(favorites);
-}
