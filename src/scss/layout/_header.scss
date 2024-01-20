@@ -1,8 +1,11 @@
 .header{
+  @include header();
   background-color: $blue;
-  padding: 50px;
+  padding: 30px;
   font-family: $title;
   text-align: center;
+  border: 2px solid $shade;
+  margin:10px 30px;
 }
 .search{
   padding: 30px;

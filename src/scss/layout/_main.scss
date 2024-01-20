@@ -1,9 +1,9 @@
 .main{
     display: flex;
     justify-content: space-evenly;
-    gap: 50px;
+    gap: 30px;
     font-family: $title;
-    padding: 30px;
+    padding: 10px 30px;
 }
 
 .title{
@@ -13,46 +13,48 @@
 
 .results{
     @include list-box();
+    width: 80%;
     &__list{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         font-family: $text;
-        list-style: none;
         text-align: left;
         line-height: 1.5;
     }
-    &__li{
-        @include li-element();
+    &__card{
+        @include card-element();
+        max-width: 300px;
         &--fav{
-            @include li-element();
             border: 3px solid $blue;
             background-color: $purple;
         }
     }
-
     &__img{
         max-height: 300px;
         max-width: 200px;
     }
 }
 
-.img{
-    max-height: 300px;
-    max-width: 200px;
-}
 .favorites{
-    max-width: 35%;
+    width: 20%;
     @include list-box();
     &__list{
         font-family: $text;
         font-size: 12px;
-        list-style: none;
         text-align: left;
         line-height: 1.5;
     }
-    &__li{
-        @include li-element();
+    &__card{
+        @include card-element();
     }
     &__img{
         max-height: 150px;
         max-width: 100px;
     }
+}
+
+.hidden{
+    display: none;
 }

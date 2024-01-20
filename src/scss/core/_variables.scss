@@ -18,6 +18,12 @@ $background: #fbeee0;
     background-color: $background;
 }
 
+@mixin header() {
+    border: 2px solid $shade;
+    border-radius: 5px;
+    box-shadow: $shade 4px 4px 0 0;
+    color: $shade;
+}
 @mixin header-box(){
     font-family: $text;
     background-color: $background;
@@ -29,7 +35,7 @@ $background: #fbeee0;
     line-height: 25px;
 }
 
-@mixin li-element(){
+@mixin card-element(){
     display: flex;
     flex-direction: column;
     align-items: center;
