@@ -1,57 +1,77 @@
 .main{
     display: flex;
     justify-content: space-evenly;
-    gap: 30px;
-    font-family: $title;
-    padding: 10px 30px;
+    gap: 10px;
+    padding: 10px 0;
+    @media (min-width: 768px) {
+        gap: 20px;
+        padding: 20px 0;
+    }
 }
 
 .title{
+    font-family: $title;
     border-bottom: 2px solid $shade;
     padding-bottom: 10px;
+    font-size: 11px;
+    @media (min-width: 768px) {
+        font-size: 18px;
+    }
 }
 
 .results{
     @include list-box();
     width: 80%;
+    height: fit-content;
     &__list{
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        font-family: $text;
-        text-align: left;
-        line-height: 1.5;
+        text-align: center;
     }
     &__card{
         @include card-element();
-        max-width: 300px;
+        font-family: $text;
+        font-weight: 500;
+        font-size: 14px;
+        width: 200px;
         &--fav{
-            border: 3px solid $blue;
-            background-color: $purple;
+            background-color: $yellow;
+            border-radius: 5px;
+            font-weight: 900;
+            text-decoration: underline overline;
+            text-decoration-style: double;
         }
     }
     &__img{
-        max-height: 300px;
-        max-width: 200px;
+        max-height: 200px;
+        max-width: 133px;
+        border-radius: 5px;
+        background-size: contain;
     }
+    
 }
 
 .favorites{
     width: 20%;
     @include list-box();
     &__list{
-        font-family: $text;
+        
         font-size: 12px;
-        text-align: left;
-        line-height: 1.5;
+        text-align: center;
     }
     &__card{
         @include card-element();
+        border: 2px solid black;
+        font-family: $text;
+        font-weight: 500;
     }
     &__img{
         max-height: 150px;
         max-width: 100px;
+        border-radius: 5px;
+        background-size: contain;
     }
 }
 

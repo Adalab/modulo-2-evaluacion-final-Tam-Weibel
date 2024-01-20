@@ -7,43 +7,33 @@ const resultsList = document.querySelector(".js-results-list");
 const favoritesList = document.querySelector(".js-favorites-list");
 let searchResults = [];
 let results = [];
-let favorites = JSON.parse(localStorage.getItem("favorites"));
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 function renderFavorites(data) {
   favoritesList.innerHTML = "";
   for (let i = 0; i < data.length; i++) {
-    const addItem = document.createElement("article");
-    const addImg = document.createElement("img");
-    const addText = document.createElement("h4");
-    const addTitle = document.createTextNode(data[i].title);
-    addImg.src = data[i].img;
-    addImg.alt = "No image available for this series";
-    addText.appendChild(addTitle);
-    addItem.appendChild(addText);
-    addItem.appendChild(addImg);
-    addItem.setAttribute("class", "favorites__card");
-    addImg.setAttribute("class", "favorites__img");
-    favoritesList.appendChild(addItem);
+    const favCard = `<article class="favorites__card">
+                        <p>${data[i].title}</p>
+                        <img src="${data[i].img}" alt="${data[i].title}" class="favorites__img">
+                    </article>`;
+    favoritesList.insertAdjacentHTML("beforeend", favCard);
   }
 }
 
-function handleFavorite(dataTitle, dataImg, event) {
+function handleFavorite(favTitle, favImg, event) {
   event.currentTarget.classList.add("results__card--fav");
-  const anime = { title: dataTitle, img: dataImg };
+  const anime = { title: favTitle, img: favImg };
   if (!favorites) {
     favorites = [];
   }
   const alreadyFav = favorites.find(function (fav) {
-    return fav.title === dataTitle;
+    return fav.title === favTitle;
   });
   if (!alreadyFav) {
     favorites.push(anime);
     renderFavorites(favorites);
     localStorage.setItem("favorites", JSON.stringify(favorites));
   } else {
-    event.currentTarget.classList.add("results__card--fav");
-    const mother = event.currentTarget.parentElement;
-    console.log(mother);
     console.log("Anime is already in favorites");
   }
 }
@@ -52,15 +42,22 @@ function renderResults(data) {
   for (let i = 0; i < data.length; i++) {
     const addItem = document.createElement("article");
     const addImg = document.createElement("img");
-    const addText = document.createElement("h4");
+    const addText = document.createElement("p");
     const addTitle = document.createTextNode(data[i].title);
     addImg.src = data[i].img;
-    addImg.alt = "No image available for this series";
+    addImg.alt = data[i].title;
     addText.appendChild(addTitle);
     addItem.appendChild(addText);
     addItem.appendChild(addImg);
     addItem.setAttribute("class", "results__card");
     addImg.setAttribute("class", "results__img");
+
+    const alreadyFav = favorites.find(function (fav) {
+      return fav.title === data[i].title;
+    });
+    if (alreadyFav) {
+      addItem.classList.add("results__card--fav");
+    }
     resultsList.appendChild(addItem);
 
     addItem.addEventListener("click", function (event) {
@@ -71,6 +68,7 @@ function renderResults(data) {
 
 function getList() {
   results = [];
+  resultsList.innerHTML = "";
   for (let i = 0; i < searchResults.length; i++) {
     const anime = { title: "", img: "" };
     anime.title = searchResults[i].titles[1].title;
@@ -79,7 +77,8 @@ function getList() {
       anime.img ===
       "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png"
     ) {
-      anime.img = "./images/No-Image.svg";
+      anime.img =
+        "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
     }
     results.push(anime);
   }
@@ -104,6 +103,8 @@ function handleSearch(event) {
 
 function handleReset(event) {
   event.preventDefault();
+  resultsList.innerHTML = "";
+  favoritesList.innerHTML = "";
   localStorage.removeItem("favorites");
   userInput.value = "";
   results = [];
@@ -112,6 +113,3 @@ function handleReset(event) {
 
 searchBtn.addEventListener("click", handleSearch);
 resetBtn.addEventListener("click", handleReset);
-if (favorites && favorites.length) {
-  renderFavorites(favorites);
-}
