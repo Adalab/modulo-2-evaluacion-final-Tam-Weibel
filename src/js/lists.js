@@ -14,7 +14,7 @@ function renderFavorites(data) {
   for (let i = 0; i < data.length; i++) {
     const addItem = document.createElement("article");
     const addImg = document.createElement("img");
-    const addText = document.createElement("h4");
+    const addText = document.createElement("p");
     const addTitle = document.createTextNode(data[i].title);
     addImg.src = data[i].img;
     addImg.alt = "No image available for this series";
@@ -41,10 +41,10 @@ function handleFavorite(dataTitle, dataImg, event) {
     renderFavorites(favorites);
     localStorage.setItem("favorites", JSON.stringify(favorites));
   } else {
-    event.currentTarget.classList.add("results__card--fav");
-    const mother = event.currentTarget.parentElement;
-    console.log(mother);
+    // const mother = event.currentTarget.parentElement;
+    // console.log(mother);
     console.log("Anime is already in favorites");
+    console.log(event);
   }
 }
 
@@ -52,7 +52,7 @@ function renderResults(data) {
   for (let i = 0; i < data.length; i++) {
     const addItem = document.createElement("article");
     const addImg = document.createElement("img");
-    const addText = document.createElement("h4");
+    const addText = document.createElement("p");
     const addTitle = document.createTextNode(data[i].title);
     addImg.src = data[i].img;
     addImg.alt = "No image available for this series";
@@ -79,7 +79,7 @@ function getList() {
       anime.img ===
       "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png"
     ) {
-      anime.img = "./images/No-Image.svg";
+      anime.img = "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
     }
     results.push(anime);
   }
@@ -104,6 +104,8 @@ function handleSearch(event) {
 
 function handleReset(event) {
   event.preventDefault();
+  resultsList.innerHTML = "";
+  favoritesList.innerHTML = "";
   localStorage.removeItem("favorites");
   userInput.value = "";
   results = [];
@@ -112,6 +114,7 @@ function handleReset(event) {
 
 searchBtn.addEventListener("click", handleSearch);
 resetBtn.addEventListener("click", handleReset);
+
 if (favorites && favorites.length) {
   renderFavorites(favorites);
 }
