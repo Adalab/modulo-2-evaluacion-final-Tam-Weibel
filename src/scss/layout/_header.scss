@@ -1,19 +1,31 @@
 .header{
   @include header();
   background-color: $blue;
-  padding: 30px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   font-family: $title;
   text-align: center;
-  border: 2px solid $shade;
-  margin:10px 30px;
+  @media (min-width: 768px) {
+    padding: 30px;
+  }
+}
+.h1{
+  font-size: 26px;
+  @media (min-width: 768px) {
+    font-size: 32px;
+  }
 }
 .search{
-  padding: 30px;
+  padding: 10px 0;
   &__btn{
-    margin-left: 10px;
+    margin: 10px 0 0 10px;
     display: inline-block;
     padding: 0 18px;
     text-align: center;
+    height: 30px;
+    width: 100px;
     @include header-box();
   }
   &__btn:hover {
@@ -24,7 +36,12 @@
     transform: translate(2px, 2px);
   }
   &__input{
-    padding-left: 15px;
+    padding: 0 10px;
+    height: 30px;
+    width: 195px;
     @include header-box();
+    @media (min-width: 768px) {
+      width: 300px;
+    }
   }
 }

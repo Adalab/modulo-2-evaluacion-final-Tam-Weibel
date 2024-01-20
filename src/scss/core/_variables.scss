@@ -7,17 +7,7 @@ $yellow: rgb(248, 248, 128);
 $shade: #422800;
 $purple: rgb(222, 195, 241);
 $background: #fbeee0;
-
-@mixin list-box(){
-    border: 2px solid $shade;
-    border-radius: 5px;
-    box-shadow: $shade 4px 4px 0 0;
-    color: $shade;
-    text-align: center;
-    padding: 10px;
-    background-color: $background;
-}
-
+// mixins
 @mixin header() {
     border: 2px solid $shade;
     border-radius: 5px;
@@ -34,7 +24,18 @@ $background: #fbeee0;
     font-size: 18px;
     line-height: 25px;
 }
-
+@mixin list-box(){
+    border: 2px solid $shade;
+    border-radius: 5px;
+    box-shadow: $shade 4px 4px 0 0;
+    color: $shade;
+    text-align: center;
+    padding: 10px 5px;
+    background-color: $background;
+    @media (min-width: 768px) {
+        padding: 10px;
+    }
+}
 @mixin card-element(){
     display: flex;
     flex-direction: column;
