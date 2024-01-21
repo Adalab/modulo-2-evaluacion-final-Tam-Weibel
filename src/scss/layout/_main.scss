@@ -23,7 +23,7 @@
   @include list-box();
   width: 50%;
   height: fit-content;
-  min-height: 75px;
+  min-height: 90px;
   &__list {
     display: flex;
     flex-direction: row;
@@ -52,7 +52,6 @@
     background-size: contain;
   }
   @media (min-width: 768px) {
-    min-height: 90px;
     width: 70%;
   }
   @media (min-width: 1024px) {
@@ -64,17 +63,22 @@
   @include list-box();
   width: 50%;
   min-width: 65px;
-  min-height: 75px;
+  min-height: 90px;
   &__list {
     font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   &__card {
     @include card-element();
     border: 2px solid $shade;
     font-family: $text;
     font-weight: 500;
+    width: 150px;
     padding: 10px;
     background-color: $yellow;
+    margin: 0, auto;
   }
   &__img {
     max-height: 133px;
@@ -87,21 +91,17 @@
   }
   &__btn {
     @include header-box();
-    height: 20px;
-    width: 70px;
-    font-size: 12px;
+    height: 30px;
+    width: 100px;
+    font-size: 16px;
     background-color: $blue;
     margin: 0;
     margin-top: 5px;
     @media (min-width: 768px) {
-      height: 30px;
-      width: 100px;
-      font-size: 18px;
       margin: 10px, 0;
     }
   }
   @media (min-width: 768px) {
-    min-height: 90px;
     width: 30%;
   }
   @media (min-width: 1024px) {

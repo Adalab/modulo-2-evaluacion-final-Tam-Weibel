@@ -15,7 +15,7 @@
     padding: 30px;
   }
 }
-.name{
+.name {
   @include list-box();
   letter-spacing: 0.5px;
   padding: 5px;

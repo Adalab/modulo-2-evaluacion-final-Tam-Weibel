@@ -10,8 +10,10 @@ let searchResults = [];
 let results = [];
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 const API_URL = "https://api.jikan.moe/v4/anime?q=";
-const DEPRECATED_NO_IMAGE_URL = "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png";
-const NO_IMAGE_URL = "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
+const DEPRECATED_NO_IMAGE_URL =
+  "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png";
+const NO_IMAGE_URL =
+  "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
 
 function renderFavorites(data) {
   favoritesList.innerHTML = "";
@@ -113,7 +115,9 @@ function handleDeleteFavorites(event) {
   favoritesList.innerHTML = "";
   localStorage.removeItem("favorites");
   for (const favorite of favorites) {
-    const selectedResult = resultsList.querySelector(`[title="${favorite.title}"]`);
+    const selectedResult = resultsList.querySelector(
+      `[title="${favorite.title}"]`
+    );
     if (selectedResult) {
       selectedResult.classList.remove("results__card--fav");
     }
@@ -136,16 +140,16 @@ function handleDeleteFavoriteCard(title) {
     selectedResult.classList.remove("results__card--fav");
   }
   const favoriteCard = favoritesList.querySelector(`[title="${title}"]`);
-  if(favoriteCard){
+  if (favoriteCard) {
     favoriteCard.remove();
   }
 }
 
 function handleClickOnIcon(element) {
   const favoriteCard = element.closest(".favorites__card");
-  if(favoriteCard){
+  if (favoriteCard) {
     const favoriteTitle = favoriteCard.querySelector(".favorites__img").alt;
-  handleDeleteFavoriteCard(favoriteTitle);
+    handleDeleteFavoriteCard(favoriteTitle);
   }
 }
 
