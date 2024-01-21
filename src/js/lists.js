@@ -22,16 +22,16 @@ function renderFavorites(data) {
   }
 }
 
-function handleFavorite(favTitle, favImg, event) {
+function handleFavorite(favoriteTitle, favoriteImg, event) {
   event.currentTarget.classList.add("results__card--fav");
-  const anime = { title: favTitle, img: favImg };
+  const anime = { title: favoriteTitle, img: favoriteImg };
   if (!favorites) {
     favorites = [];
   }
-  const alreadyFav = favorites.find(function (fav) {
-    return fav.title === favTitle;
+  const alreadyFavorite = favorites.find(function (favorite) {
+    return favorite.title === favoriteTitle;
   });
-  if (!alreadyFav) {
+  if (!alreadyFavorite) {
     favorites.push(anime);
     renderFavorites(favorites);
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -52,12 +52,13 @@ function renderResults(data) {
     addItem.appendChild(addText);
     addItem.appendChild(addImg);
     addItem.setAttribute("class", "results__card");
+    addItem.setAttribute("title", data[i].title);
     addImg.setAttribute("class", "results__img");
 
-    const alreadyFav = favorites.find(function (fav) {
-      return fav.title === data[i].title;
+    const alreadyFavorite = favorites.find(function (favorite) {
+      return favorite.title === data[i].title;
     });
-    if (alreadyFav) {
+    if (alreadyFavorite) {
       addItem.classList.add("results__card--fav");
     }
     resultsList.appendChild(addItem);
@@ -117,15 +118,19 @@ function handleDeleteFavorites(event) {
   event.preventDefault();
   favoritesList.innerHTML = "";
   localStorage.removeItem("favorites");
-  const alreadyFav = favorites.find(function (fav) {
-    return fav.title === favorites.title;
-  });
-  if (alreadyFav) {
-    addItem.classList.remove("results__card--fav");
+  for (let i = 0; i < favorites.length; i++) {
+    const favorite = favorites[i];
+    const selectedResult = resultsList.querySelector(`[title="${favorite.title}"]`);
+    
+    if (selectedResult) {
+        selectedResult.classList.remove("results__card--fav");
+    }
   }
   favorites = [];
 }
 
 searchBtn.addEventListener("click", handleSearch);
 resetBtn.addEventListener("click", handleReset);
+renderFavorites(favorites); 
 favoritesBtn.addEventListener("click", handleDeleteFavorites);
+

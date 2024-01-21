@@ -13,7 +13,7 @@
     font-family: $title;
     border-bottom: 2px solid $shade;
     padding-bottom: 10px;
-    font-size: 11px;
+    font-size: 13px;
     @media (min-width: 768px) {
         font-size: 18px;
     }
@@ -35,17 +35,17 @@
         font-family: $text;
         font-weight: 500;
         font-size: 14px;
-        width: 200px;
+        width: 150px;
         &--fav{
             background-color: $yellow;
             border-radius: 5px;
             font-weight: 900;
-            text-decoration: underline overline;
-            text-decoration-style: double;
+            color: $purple;
+            text-decoration: underline;
         }
     }
     &__img{
-        max-height: 200px;
+        max-height: 150px;
         max-width: 133px;
         border-radius: 5px;
         background-size: contain;
@@ -64,6 +64,8 @@
         border: 2px solid $shade;
         font-family: $text;
         font-weight: 500;
+        padding:10px;
+        background-color: $yellow;
     }
     &__img{
         max-height: 150px;

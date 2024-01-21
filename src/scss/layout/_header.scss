@@ -29,7 +29,7 @@
     @include header-box();
   }
   &__btn:hover {
-    background-color: $yellow;
+    background-color: $violet;
   }
   &__btn:active {
     box-shadow: $shade 2px 2px 0 0;
