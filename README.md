@@ -1,7 +1,7 @@
 # modulo-2-evaluacion-final-Tam-Weibel
 
 ## What:
-El ejercicio consiste en desarollar una applicación web de búsquedad de series anime en la base de datos de la API abierta de Jikan. 
+El ejercicio consiste en desarollar una applicación web de búsqueda de series anime en la base de datos de la API abierta de Jikan. 
 
 ## When & where:
 El producto final debe estar disponible y funcionando en un repositorio de Adalab en GitHub y publicado en GitHub Pages el lunes 22 de enero a las 14:00 CET.
@@ -13,7 +13,7 @@ Una vez que tengamos el resultado de la búsqueda el usuario podrá seleccionar 
 
 Con cada nueva búsqueda la lista de favoritos debe continuar visible en la pantalla y si alguna de las series favoritas aparece en la lista de resultados debe estar resaltada con otro color. 
 
-## Bonus:
+## Extras:
 Borrar favoritos: al hacer clic sobre un icono al lado de cada favorito se borra de la    lista de favoritas, se elimina del local storage y deja de estar resaltada en la lista de resultados. 
 Añadir la posibilidad de añadir/quitar de favoritos desde la lista de resultados. 
 Añadir un botón al final de la lista de favoritos que los borre todos a la vez.
@@ -21,3 +21,6 @@ Añadir un botón al final de la lista de favoritos que los borre todos a la vez
 Botón de reset: al clicar sobre el reset la págiona vuelva a su estado inicial sin favoritos, lista de resultados y valores de input.
 
 Afinar la maquetación: hay libertad para decidir los estilos a aplicar.
+
+## End result
+Se presenta un producto que cumple todos los requisitos y los bonus propuestos.
