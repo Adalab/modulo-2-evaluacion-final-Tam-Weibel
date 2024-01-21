@@ -9,28 +9,29 @@ const favoritesList = document.querySelector(".js-favorites-list");
 let searchResults = [];
 let results = [];
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+const API_URL = "https://api.jikan.moe/v4/anime?q=";
+const DEPRECATED_NO_IMAGE_URL = 'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
+const NO_IMAGE_URL = "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
 
 function renderFavorites(data) {
   favoritesList.innerHTML = "";
-  for (let i = 0; i < data.length; i++) {
+  for (const each of data) {
     const favCard = `<article class="favorites__card">                       
-                        <span>${data[i].title}</span>
-                        <img src="${data[i].img}" alt="${data[i].title}" class="favorites__img">
-                        <span class="favorites__icon"><i class="fa-solid fa-trash-can"></i></span>
+                        <span>${each.title}</span>
+                        <img src="${each.img}" alt="${each.title}" class="favorites__img">
+                        <span class="favorites__icon js-favorites-icon"><i class="fa-solid fa-trash-can"></i></span>
                     </article>`;
     favoritesList.insertAdjacentHTML("beforeend", favCard);
   }
 }
 
-function handleFavorite(favoriteTitle, favoriteImg, event) {
+function handleFavorite(title, img, event) {
   event.currentTarget.classList.add("results__card--fav");
-  const anime = { title: favoriteTitle, img: favoriteImg };
+  const anime = { title: title, img: img };
   if (!favorites) {
     favorites = [];
   }
-  const alreadyFavorite = favorites.find(function (favorite) {
-    return favorite.title === favoriteTitle;
-  });
+  let alreadyFavorite = favorites.find((favorite) => favorite.title === title);
   if (!alreadyFavorite) {
     favorites.push(anime);
     renderFavorites(favorites);
@@ -41,47 +42,37 @@ function handleFavorite(favoriteTitle, favoriteImg, event) {
 }
 
 function renderResults(data) {
-  for (let i = 0; i < data.length; i++) {
+  for (const each of data) {
     const addItem = document.createElement("article");
     const addImg = document.createElement("img");
     const addText = document.createElement("p");
-    const addTitle = document.createTextNode(data[i].title);
-    addImg.src = data[i].img;
-    addImg.alt = data[i].title;
+    const addTitle = document.createTextNode(each.title);
+    addImg.src = each.img;
+    addImg.alt = each.title;
     addText.appendChild(addTitle);
     addItem.appendChild(addText);
     addItem.appendChild(addImg);
     addItem.setAttribute("class", "results__card");
-    addItem.setAttribute("title", data[i].title);
+    addItem.setAttribute("title", each.title);
     addImg.setAttribute("class", "results__img");
+    resultsList.appendChild(addItem);
 
-    const alreadyFavorite = favorites.find(function (favorite) {
-      return favorite.title === data[i].title;
-    });
+    let alreadyFavorite = favorites.find((favorite) => favorite.title === each.title);
     if (alreadyFavorite) {
       addItem.classList.add("results__card--fav");
     }
-    resultsList.appendChild(addItem);
 
-    addItem.addEventListener("click", function (event) {
-      handleFavorite(data[i].title, data[i].img, event);
-    });
+    addItem.addEventListener("click", (event) => handleFavorite(each.title, each.img, event));
   }
 }
 
-function getList() {
+function getList(data) {
   results = [];
   resultsList.innerHTML = "";
-  for (let i = 0; i < searchResults.length; i++) {
-    const anime = { title: "", img: "" };
-    anime.title = searchResults[i].titles[1].title;
-    anime.img = searchResults[i].images.webp.image_url;
-    if (
-      anime.img ===
-      "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png"
-    ) {
-      anime.img =
-        "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
+  for (const eachData of data) {
+    const anime = { title: eachData.titles[1].title, img: eachData.images.webp.image_url };
+    if (anime.img === DEPRECATED_NO_IMAGE_URL) {
+        anime.img = NO_IMAGE_URL;
     }
     results.push(anime);
   }
@@ -90,18 +81,14 @@ function getList() {
 
 function handleSearch(event) {
   event.preventDefault();
-  let inputValue = userInput.value.toLowerCase();
-  fetch(`https://api.jikan.moe/v4/anime?q=${inputValue}`)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (info) {
-      searchResults = info.data;
-      getList(searchResults);
-    })
-    .catch(function (error) {
-      console.error("Fetch error:", error);
-    });
+  const searchInput = userInput.value.toLowerCase();
+  fetch(API_URL + searchInput)
+  .then((response) => response.json())
+  .then((info) => {
+    searchResults = info.data;
+    getList(searchResults);
+  })
+  .catch((error) => console.error("Fetch error:", error));
 }
 
 function handleReset(event) {
@@ -118,18 +105,43 @@ function handleDeleteFavorites(event) {
   event.preventDefault();
   favoritesList.innerHTML = "";
   localStorage.removeItem("favorites");
-  for (let i = 0; i < favorites.length; i++) {
-    const favorite = favorites[i];
+  for (const favorite of favorites) {
     const selectedResult = resultsList.querySelector(`[title="${favorite.title}"]`);
-    
     if (selectedResult) {
-        selectedResult.classList.remove("results__card--fav");
+      selectedResult.classList.remove("results__card--fav");
     }
   }
   favorites = [];
 }
-renderFavorites(favorites); 
-searchBtn.addEventListener("click", handleSearch);
-resetBtn.addEventListener("click", handleReset);
-favoritesBtn.addEventListener("click", handleDeleteFavorites);
 
+function handleDeleteFavoriteElement(element, event) {
+  event.preventDefault();
+  const favoriteCard = element.closest(".favorites__card");
+  const favoriteTitle = favoriteCard.querySelector(".favorites__img").alt;
+  let favoriteToDeleteIndex = favorites.findIndex((favorite) => favorite.title === favoriteTitle);
+  if (favoriteToDeleteIndex !== -1) {
+    favorites.splice(favoriteToDeleteIndex, 1);
+    localStorage.removeItem("favorites");
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }
+  const selectedResult = resultsList.querySelector(`[title="${favoriteTitle}"]`);
+  if (selectedResult) {
+    selectedResult.classList.remove("results__card--fav");
+  }
+  favoriteCard.remove();
+}
+
+function init(){
+    renderFavorites(favorites);
+    searchBtn.addEventListener("click", handleSearch);
+    resetBtn.addEventListener("click", handleReset);
+    favoritesBtn.addEventListener("click", handleDeleteFavorites);
+    favoritesList.addEventListener("click", function (event) {
+      const favoritesIcon = event.target.closest(".js-favorites-icon");
+      if (favoritesIcon) {
+        handleDeleteFavoriteElement(favoritesIcon, event);
+      }
+    });
+}
+
+init();
