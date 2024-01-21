@@ -1,8 +1,9 @@
 "use strict";
 
 const userInput = document.querySelector(".js-input");
-const searchBtn = document.querySelector(".js-btn");
-const resetBtn = document.querySelector(".js-reset");
+const searchBtn = document.querySelector(".js-search-btn");
+const resetBtn = document.querySelector(".js-reset-btn");
+const favoritesBtn = document.querySelector(".js-favorites-btn");
 const resultsList = document.querySelector(".js-results-list");
 const favoritesList = document.querySelector(".js-favorites-list");
 let searchResults = [];
@@ -12,9 +13,10 @@ let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 function renderFavorites(data) {
   favoritesList.innerHTML = "";
   for (let i = 0; i < data.length; i++) {
-    const favCard = `<article class="favorites__card">
-                        <p>${data[i].title}</p>
+    const favCard = `<article class="favorites__card">                       
+                        <span>${data[i].title}</span>
                         <img src="${data[i].img}" alt="${data[i].title}" class="favorites__img">
+                        <span class="favorites__icon"><i class="fa-solid fa-trash-can"></i></span>
                     </article>`;
     favoritesList.insertAdjacentHTML("beforeend", favCard);
   }
@@ -111,5 +113,19 @@ function handleReset(event) {
   favorites = [];
 }
 
+function handleDeleteFavorites(event) {
+  event.preventDefault();
+  favoritesList.innerHTML = "";
+  localStorage.removeItem("favorites");
+  const alreadyFav = favorites.find(function (fav) {
+    return fav.title === favorites.title;
+  });
+  if (alreadyFav) {
+    addItem.classList.remove("results__card--fav");
+  }
+  favorites = [];
+}
+
 searchBtn.addEventListener("click", handleSearch);
 resetBtn.addEventListener("click", handleReset);
+favoritesBtn.addEventListener("click", handleDeleteFavorites);

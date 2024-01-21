@@ -57,13 +57,11 @@
     width: 20%;
     @include list-box();
     &__list{
-        
         font-size: 12px;
-        text-align: center;
     }
     &__card{
         @include card-element();
-        border: 2px solid black;
+        border: 2px solid $shade;
         font-family: $text;
         font-weight: 500;
     }
@@ -72,6 +70,12 @@
         max-width: 100px;
         border-radius: 5px;
         background-size: contain;
+    }
+    &__icon{
+       align-self: flex-end;
+    }
+    &__btn{
+        background-color: $blue;
     }
 }
 
