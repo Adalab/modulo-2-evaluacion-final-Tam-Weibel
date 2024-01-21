@@ -1,14 +1,12 @@
-@import 'core/variables';
-@import 'core/reset';
-@import 'layout/header';
-@import 'layout/main';
-@import 'layout/footer';
+@import "core/variables";
+@import "core/reset";
+@import "layout/header";
+@import "layout/main";
+@import "layout/footer";
 
-.body{
-    margin: 10px;
-    @media (min-width: 768px) {
-        margin:10px 30px;
-    }
+.body {
+  margin: 10px;
+  @media (min-width: 768px) {
+    margin: 10px 30px;
+  }
 }
-
-

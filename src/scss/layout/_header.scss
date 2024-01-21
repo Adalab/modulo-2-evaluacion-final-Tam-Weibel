@@ -1,4 +1,4 @@
-.header{
+.header {
   @include header();
   background-color: $blue;
   padding: 20px;
@@ -11,22 +11,22 @@
     padding: 30px;
   }
 }
-.h1{
-  font-size: 26px;
+
+.h1 {
+  font-size: 24px;
   @media (min-width: 768px) {
     font-size: 32px;
   }
 }
-.search{
+
+.search {
   padding: 10px 0;
-  &__btn{
-    margin: 10px 0 0 10px;
-    display: inline-block;
-    padding: 0 18px;
-    text-align: center;
+  &__btn {
+    @include header-box();
+    margin: 10px 0 0 5px;
     height: 30px;
     width: 100px;
-    @include header-box();
+    font-size: 16px;
   }
   &__btn:hover {
     background-color: $violet;
@@ -35,11 +35,13 @@
     box-shadow: $shade 2px 2px 0 0;
     transform: translate(2px, 2px);
   }
-  &__input{
+  &__input {
+    @include header-box();
     padding: 0 10px;
     height: 30px;
-    width: 195px;
-    @include header-box();
+    width: 210px;
+    font-size: 18px;
+    line-height: 100%;
     @media (min-width: 768px) {
       width: 300px;
     }

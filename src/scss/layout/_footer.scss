@@ -15,7 +15,7 @@
     padding: 30px;
   }
 }
-.name{
+.name {
   @include list-box();
   letter-spacing: 0.5px;
   padding: 5px;
@@ -25,7 +25,7 @@
   @include list-box();
   padding: 5px;
   width: 50px;
-  height: 20px;
+  height: 25px;
   border: 2px solid $shade;
   background-color: $background;
   border-radius: 5px;
@@ -33,7 +33,6 @@
     box-shadow: $shade 2px 2px 0 0;
     transform: translate(2px, 2px);
   }
-
   @media (min-width: 768px) {
     width: 100px;
     height: 40px;

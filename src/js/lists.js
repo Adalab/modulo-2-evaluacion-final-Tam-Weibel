@@ -10,8 +10,10 @@ let searchResults = [];
 let results = [];
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 const API_URL = "https://api.jikan.moe/v4/anime?q=";
-const DEPRECATED_NO_IMAGE_URL = 'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
-const NO_IMAGE_URL = "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
+const DEPRECATED_NO_IMAGE_URL =
+  "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png";
+const NO_IMAGE_URL =
+  "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
 
 function renderFavorites(data) {
   favoritesList.innerHTML = "";
@@ -37,7 +39,7 @@ function handleFavorite(title, img, event) {
     renderFavorites(favorites);
     localStorage.setItem("favorites", JSON.stringify(favorites));
   } else {
-    console.log("Anime is already in favorites");
+    handleDeleteFavoriteCard(alreadyFavorite.title);
   }
 }
 
@@ -57,12 +59,16 @@ function renderResults(data) {
     addImg.setAttribute("class", "results__img");
     resultsList.appendChild(addItem);
 
-    let alreadyFavorite = favorites.find((favorite) => favorite.title === each.title);
+    let alreadyFavorite = favorites.find(
+      (favorite) => favorite.title === each.title
+    );
     if (alreadyFavorite) {
       addItem.classList.add("results__card--fav");
     }
 
-    addItem.addEventListener("click", (event) => handleFavorite(each.title, each.img, event));
+    addItem.addEventListener("click", (event) =>
+      handleFavorite(each.title, each.img, event)
+    );
   }
 }
 
@@ -70,9 +76,12 @@ function getList(data) {
   results = [];
   resultsList.innerHTML = "";
   for (const eachData of data) {
-    const anime = { title: eachData.titles[1].title, img: eachData.images.webp.image_url };
+    const anime = {
+      title: eachData.titles[1].title,
+      img: eachData.images.webp.image_url,
+    };
     if (anime.img === DEPRECATED_NO_IMAGE_URL) {
-        anime.img = NO_IMAGE_URL;
+      anime.img = NO_IMAGE_URL;
     }
     results.push(anime);
   }
@@ -83,12 +92,12 @@ function handleSearch(event) {
   event.preventDefault();
   const searchInput = userInput.value.toLowerCase();
   fetch(API_URL + searchInput)
-  .then((response) => response.json())
-  .then((info) => {
-    searchResults = info.data;
-    getList(searchResults);
-  })
-  .catch((error) => console.error("Fetch error:", error));
+    .then((response) => response.json())
+    .then((info) => {
+      searchResults = info.data;
+      getList(searchResults);
+    })
+    .catch((error) => console.error("Fetch error:", error));
 }
 
 function handleReset(event) {
@@ -106,7 +115,9 @@ function handleDeleteFavorites(event) {
   favoritesList.innerHTML = "";
   localStorage.removeItem("favorites");
   for (const favorite of favorites) {
-    const selectedResult = resultsList.querySelector(`[title="${favorite.title}"]`);
+    const selectedResult = resultsList.querySelector(
+      `[title="${favorite.title}"]`
+    );
     if (selectedResult) {
       selectedResult.classList.remove("results__card--fav");
     }
@@ -114,34 +125,45 @@ function handleDeleteFavorites(event) {
   favorites = [];
 }
 
-function handleDeleteFavoriteElement(element, event) {
-  event.preventDefault();
-  const favoriteCard = element.closest(".favorites__card");
-  const favoriteTitle = favoriteCard.querySelector(".favorites__img").alt;
-  let favoriteToDeleteIndex = favorites.findIndex((favorite) => favorite.title === favoriteTitle);
+function handleDeleteFavoriteCard(title) {
+  let favoriteToDeleteIndex = favorites.findIndex(
+    (favorite) => favorite.title === title
+  );
   if (favoriteToDeleteIndex !== -1) {
     favorites.splice(favoriteToDeleteIndex, 1);
     localStorage.removeItem("favorites");
     localStorage.setItem("favorites", JSON.stringify(favorites));
+    renderFavorites(favorites);
   }
-  const selectedResult = resultsList.querySelector(`[title="${favoriteTitle}"]`);
+  const selectedResult = resultsList.querySelector(`[title="${title}"]`);
   if (selectedResult) {
     selectedResult.classList.remove("results__card--fav");
   }
-  favoriteCard.remove();
+  const favoriteCard = favoritesList.querySelector(`[title="${title}"]`);
+  if (favoriteCard) {
+    favoriteCard.remove();
+  }
 }
 
-function init(){
-    renderFavorites(favorites);
-    searchBtn.addEventListener("click", handleSearch);
-    resetBtn.addEventListener("click", handleReset);
-    favoritesBtn.addEventListener("click", handleDeleteFavorites);
-    favoritesList.addEventListener("click", function (event) {
-      const favoritesIcon = event.target.closest(".js-favorites-icon");
-      if (favoritesIcon) {
-        handleDeleteFavoriteElement(favoritesIcon, event);
-      }
-    });
+function handleClickOnIcon(element) {
+  const favoriteCard = element.closest(".favorites__card");
+  if (favoriteCard) {
+    const favoriteTitle = favoriteCard.querySelector(".favorites__img").alt;
+    handleDeleteFavoriteCard(favoriteTitle);
+  }
+}
+
+function init() {
+  renderFavorites(favorites);
+  searchBtn.addEventListener("click", handleSearch);
+  resetBtn.addEventListener("click", handleReset);
+  favoritesBtn.addEventListener("click", handleDeleteFavorites);
+  favoritesList.addEventListener("click", function (event) {
+    const favoritesIcon = event.target.closest(".js-favorites-icon");
+    if (favoritesIcon) {
+      handleClickOnIcon(favoritesIcon);
+    }
+  });
 }
 
 init();

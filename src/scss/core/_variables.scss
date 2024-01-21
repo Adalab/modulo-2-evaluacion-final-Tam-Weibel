@@ -1,51 +1,53 @@
 // fonts
 $title: Bangers;
 $text: Roboto;
+
 // colors
 $blue: rgb(179, 231, 231);
-$yellow: rgb(248, 248, 128);
 $shade: #422800;
-$purple: #5e63a1;
-$violet: #AA96DA;
+$violet: #aa96da;
 $background: #fbeee0;
+
 // mixins
 @mixin header() {
-    border: 2px solid $shade;
-    border-radius: 5px;
-    box-shadow: $shade 4px 4px 0 0;
-    color: $shade;
+  border: 2px solid $shade;
+  border-radius: 5px;
+  box-shadow: $shade 4px 4px 0 0;
+  color: $shade;
 }
-@mixin header-box(){
-    font-family: $text;
-    background-color: $background;
-    border: 2px solid $shade;
-    border-radius: 30px;
-    box-shadow: $shade 4px 4px 0 0;
-    color: $shade;
-    font-size: 18px;
-    line-height: 25px;
+
+@mixin header-box() {
+  font-family: $text;
+  background-color: $background;
+  border: 2px solid $shade;
+  border-radius: 30px;
+  box-shadow: $shade 4px 4px 0 0;
+  color: $shade;
+  text-align: center;
 }
-@mixin list-box(){
-    border: 2px solid $shade;
-    border-radius: 5px;
-    box-shadow: $shade 4px 4px 0 0;
-    color: $shade;
-    text-align: center;
-    padding: 10px 5px;
-    background-color: $background;
-    @media (min-width: 768px) {
-        padding: 10px;
-    }
+
+@mixin list-box() {
+  border: 2px solid $shade;
+  border-radius: 5px;
+  box-shadow: $shade 4px 4px 0 0;
+  color: $shade;
+  text-align: center;
+  padding: 10px 5px;
+  background-color: $background;
+  @media (min-width: 768px) {
+    padding: 10px;
+  }
 }
-@mixin card-element(){
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    border: 2px solid $shade;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 10px 0;
-    line-height: 2;
-    background-color: $blue;
+
+@mixin card-element() {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+  border: 2px solid $shade;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px 0;
+  background-color: $blue;
 }
