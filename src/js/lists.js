@@ -16,7 +16,7 @@ function renderFavorites(data) {
     const favCard = `<article class="favorites__card">                       
                         <span>${data[i].title}</span>
                         <img src="${data[i].img}" alt="${data[i].title}" class="favorites__img">
-                        <span class="favorites__icon"><i class="fa-solid fa-trash-can"></i></span>
+                        <span class="favorites__icon js-favorites-icon"><i class="fa-solid fa-trash-can"></i></span>
                     </article>`;
     favoritesList.insertAdjacentHTML("beforeend", favCard);
   }
@@ -120,16 +120,57 @@ function handleDeleteFavorites(event) {
   localStorage.removeItem("favorites");
   for (let i = 0; i < favorites.length; i++) {
     const favorite = favorites[i];
-    const selectedResult = resultsList.querySelector(`[title="${favorite.title}"]`);
-    
+    const selectedResult = resultsList.querySelector(
+      `[title="${favorite.title}"]`
+    );
+
     if (selectedResult) {
-        selectedResult.classList.remove("results__card--fav");
+      selectedResult.classList.remove("results__card--fav");
     }
   }
   favorites = [];
 }
-renderFavorites(favorites); 
+function handleDeleteFavoriteElement(span, event) {
+  event.preventDefault();
+  const favoriteCard = span.closest(".favorites__card");
+  const favoriteTitle = favoriteCard.querySelector(".favorites__img").alt;
+  const favoriteToDelete = favorites.findIndex(
+    (favorite) => favorite.title === favoriteTitle
+  );
+  if(favoriteToDelete != -1){
+    favorites.splice(favoriteToDelete, 1);
+    localStorage.removeItem('favorites');
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }
+  console.log(favoriteToDelete);
+  console.log(favorites);
+  const selectedResult = resultsList.querySelector(
+    `[title="${favoriteTitle}"]`
+  );
+
+  if (selectedResult) {
+    selectedResult.classList.remove("results__card--fav");
+  }
+  favoriteCard.remove();
+  const localFavorites = JSON.parse(localStorage.getItem("favorites"));
+  
+  const localToDelete = localFavorites.findIndex(
+    (favorite) => favorite.title === favoriteTitle
+  );
+  if(localToDelete != -1){
+    favorites.splice(localToDelete, 1);
+  }
+  
+}
+
+favoritesList.addEventListener("click", function (event) {
+  const favoritesIcon = event.target.closest(".js-favorites-icon");
+  if (favoritesIcon) {
+    handleDeleteFavoriteElement(favoritesIcon, event);
+  }
+});
+
+renderFavorites(favorites);
 searchBtn.addEventListener("click", handleSearch);
 resetBtn.addEventListener("click", handleReset);
 favoritesBtn.addEventListener("click", handleDeleteFavorites);
-
