@@ -1,8 +1,9 @@
 "use strict";
 
 const userInput = document.querySelector(".js-input");
-const searchBtn = document.querySelector(".js-btn");
-const resetBtn = document.querySelector(".js-reset");
+const searchBtn = document.querySelector(".js-search-btn");
+const resetBtn = document.querySelector(".js-reset-btn");
+const favoritesBtn = document.querySelector(".js-favorites-btn");
 const resultsList = document.querySelector(".js-results-list");
 const favoritesList = document.querySelector(".js-favorites-list");
 let searchResults = [];
@@ -12,24 +13,25 @@ let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 function renderFavorites(data) {
   favoritesList.innerHTML = "";
   for (let i = 0; i < data.length; i++) {
-    const favCard = `<article class="favorites__card">
-                        <p>${data[i].title}</p>
+    const favCard = `<article class="favorites__card">                       
+                        <span>${data[i].title}</span>
                         <img src="${data[i].img}" alt="${data[i].title}" class="favorites__img">
+                        <span class="favorites__icon"><i class="fa-solid fa-trash-can"></i></span>
                     </article>`;
     favoritesList.insertAdjacentHTML("beforeend", favCard);
   }
 }
 
-function handleFavorite(favTitle, favImg, event) {
+function handleFavorite(favoriteTitle, favoriteImg, event) {
   event.currentTarget.classList.add("results__card--fav");
-  const anime = { title: favTitle, img: favImg };
+  const anime = { title: favoriteTitle, img: favoriteImg };
   if (!favorites) {
     favorites = [];
   }
-  const alreadyFav = favorites.find(function (fav) {
-    return fav.title === favTitle;
+  const alreadyFavorite = favorites.find(function (favorite) {
+    return favorite.title === favoriteTitle;
   });
-  if (!alreadyFav) {
+  if (!alreadyFavorite) {
     favorites.push(anime);
     renderFavorites(favorites);
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -50,12 +52,13 @@ function renderResults(data) {
     addItem.appendChild(addText);
     addItem.appendChild(addImg);
     addItem.setAttribute("class", "results__card");
+    addItem.setAttribute("title", data[i].title);
     addImg.setAttribute("class", "results__img");
 
-    const alreadyFav = favorites.find(function (fav) {
-      return fav.title === data[i].title;
+    const alreadyFavorite = favorites.find(function (favorite) {
+      return favorite.title === data[i].title;
     });
-    if (alreadyFav) {
+    if (alreadyFavorite) {
       addItem.classList.add("results__card--fav");
     }
     resultsList.appendChild(addItem);
@@ -111,5 +114,22 @@ function handleReset(event) {
   favorites = [];
 }
 
+function handleDeleteFavorites(event) {
+  event.preventDefault();
+  favoritesList.innerHTML = "";
+  localStorage.removeItem("favorites");
+  for (let i = 0; i < favorites.length; i++) {
+    const favorite = favorites[i];
+    const selectedResult = resultsList.querySelector(`[title="${favorite.title}"]`);
+    
+    if (selectedResult) {
+        selectedResult.classList.remove("results__card--fav");
+    }
+  }
+  favorites = [];
+}
+renderFavorites(favorites); 
 searchBtn.addEventListener("click", handleSearch);
 resetBtn.addEventListener("click", handleReset);
+favoritesBtn.addEventListener("click", handleDeleteFavorites);
+

@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: black;
+  color: $shade;
   height: 5vh;
   @media (min-width: 768px) {
     height: 7vh;
@@ -25,12 +25,18 @@
   @include list-box();
   padding: 5px;
   width: 50px;
-  border: 2px solid black;
+  height: 20px;
+  border: 2px solid $shade;
   background-color: $background;
   border-radius: 5px;
+  &:active {
+    box-shadow: $shade 2px 2px 0 0;
+    transform: translate(2px, 2px);
+  }
 
   @media (min-width: 768px) {
     width: 100px;
+    height: 40px;
     padding: 3px;
   }
 }
