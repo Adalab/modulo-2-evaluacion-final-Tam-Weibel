@@ -128,9 +128,8 @@ function handleDeleteFavorites(event) {
   }
   favorites = [];
 }
-
+renderFavorites(favorites); 
 searchBtn.addEventListener("click", handleSearch);
 resetBtn.addEventListener("click", handleReset);
-renderFavorites(favorites); 
 favoritesBtn.addEventListener("click", handleDeleteFavorites);
 
