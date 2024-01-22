@@ -15,6 +15,11 @@ const DEPRECATED_NO_IMAGE_URL =
 const NO_IMAGE_URL =
   "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
 
+
+function findFavorite(title) {
+  return favorites.find((favorite) => favorite.title === title);
+}
+
 function renderFavorites(data) {
   favoritesList.innerHTML = "";
   for (const each of data) {
@@ -33,7 +38,7 @@ function handleFavorite(title, img, event) {
   if (!favorites) {
     favorites = [];
   }
-  let alreadyFavorite = favorites.find((favorite) => favorite.title === title);
+  let alreadyFavorite = findFavorite(title);
   if (!alreadyFavorite) {
     favorites.push(anime);
     renderFavorites(favorites);
@@ -59,9 +64,7 @@ function renderResults(data) {
     addImg.setAttribute("class", "results__img");
     resultsList.appendChild(addItem);
 
-    let alreadyFavorite = favorites.find(
-      (favorite) => favorite.title === each.title
-    );
+    let alreadyFavorite = findFavorite(each.title);
     if (alreadyFavorite) {
       addItem.classList.add("results__card--fav");
     }
