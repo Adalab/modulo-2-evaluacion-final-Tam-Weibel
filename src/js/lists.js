@@ -110,7 +110,7 @@ function handleReset(event) {
   favorites = [];
 }
 
-function handleDeleteFavorites(event) {
+function handleDeleteAllFavorites(event) {
   event.preventDefault();
   favoritesList.innerHTML = "";
   localStorage.removeItem("favorites");
@@ -139,10 +139,6 @@ function handleDeleteFavoriteCard(title) {
   if (selectedResult) {
     selectedResult.classList.remove("results__card--fav");
   }
-  const favoriteCard = favoritesList.querySelector(`[title="${title}"]`);
-  if (favoriteCard) {
-    favoriteCard.remove();
-  }
 }
 
 function handleClickOnIcon(element) {
@@ -157,7 +153,7 @@ function init() {
   renderFavorites(favorites);
   searchBtn.addEventListener("click", handleSearch);
   resetBtn.addEventListener("click", handleReset);
-  favoritesBtn.addEventListener("click", handleDeleteFavorites);
+  favoritesBtn.addEventListener("click", handleDeleteAllFavorites);
   favoritesList.addEventListener("click", function (event) {
     const favoritesIcon = event.target.closest(".js-favorites-icon");
     if (favoritesIcon) {

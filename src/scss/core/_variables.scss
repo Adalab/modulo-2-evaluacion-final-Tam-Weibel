@@ -6,6 +6,7 @@ $text: Roboto;
 $blue: #b3e7e7;
 $yellow: #f8f880;
 $shade: #422800;
+$purple: #5e63a1;
 $violet: #aa96da;
 $background: #fbeee0;
 
@@ -23,8 +24,6 @@ $background: #fbeee0;
   border: 2px solid $shade;
   border-radius: 30px;
   box-shadow: $shade 4px 4px 0 0;
-  color: $shade;
-  text-align: center;
 }
 
 @mixin list-box() {
@@ -49,6 +48,4 @@ $background: #fbeee0;
   border: 2px solid $shade;
   border-radius: 5px;
   margin: 10px;
-  padding: 10px 0;
-  background-color: $blue;
 }

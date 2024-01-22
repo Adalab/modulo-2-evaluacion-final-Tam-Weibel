@@ -29,19 +29,20 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    text-align: center;
   }
   &__card {
     @include card-element();
+    background-color: $blue;
     font-family: $text;
     font-weight: 500;
     font-size: 14px;
     width: 150px;
+    padding: 10px 0;
     &--fav {
       background-color: $yellow;
       border-radius: 5px;
       font-weight: 900;
-      color: $violet;
+      color: $purple;
       text-decoration: underline;
     }
   }
@@ -72,13 +73,11 @@
   }
   &__card {
     @include card-element();
-    border: 2px solid $shade;
     font-family: $text;
     font-weight: 500;
     width: 150px;
     padding: 10px;
     background-color: $yellow;
-    margin: 0, auto;
   }
   &__img {
     max-height: 133px;
