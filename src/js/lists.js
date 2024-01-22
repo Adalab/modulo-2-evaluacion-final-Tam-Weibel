@@ -24,7 +24,7 @@ function renderFavorites(data) {
   favoritesList.innerHTML = "";
   for (const each of data) {
     const favCard = `<article class="favorites__card">                       
-                        <span>${each.title}</span>
+                        <span id="${each.id}">${each.title}</span>
                         <img src="${each.img}" alt="${each.title}" class="favorites__img">
                         <span class="favorites__icon js-favorites-icon"><i class="fa-solid fa-trash-can"></i></span>
                     </article>`;
@@ -32,12 +32,13 @@ function renderFavorites(data) {
   }
 }
 
-function handleFavorite(title, img, event) {
+function handleFavorite(id, title, img, event) {
   event.currentTarget.classList.add("results__card--fav");
-  const anime = { title: title, img: img };
-  if (!favorites) {
-    favorites = [];
-  }
+  const anime = { 
+    id: id, 
+    title: title, 
+    img: img 
+  };
   let alreadyFavorite = findFavorite(title);
   if (!alreadyFavorite) {
     favorites.push(anime);
@@ -60,6 +61,7 @@ function renderResults(data) {
     addItem.appendChild(addText);
     addItem.appendChild(addImg);
     addItem.setAttribute("class", "results__card");
+    addItem.setAttribute("id", each.id);
     addItem.setAttribute("title", each.title);
     addImg.setAttribute("class", "results__img");
     resultsList.appendChild(addItem);
@@ -70,7 +72,7 @@ function renderResults(data) {
     }
 
     addItem.addEventListener("click", (event) =>
-      handleFavorite(each.title, each.img, event)
+      handleFavorite(each.id, each.title, each.img, event)
     );
   }
 }
@@ -78,16 +80,17 @@ function renderResults(data) {
 function getList(data) {
   results = [];
   resultsList.innerHTML = "";
-  for (const eachData of data) {
+  results = data.map((eachData) => {
     const anime = {
+      id: eachData.mal_id,
       title: eachData.titles[1].title,
       img: eachData.images.webp.image_url,
     };
     if (anime.img === DEPRECATED_NO_IMAGE_URL) {
       anime.img = NO_IMAGE_URL;
     }
-    results.push(anime);
-  }
+    return anime;
+  });
   renderResults(results);
 }
 

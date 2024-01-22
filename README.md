@@ -14,7 +14,7 @@ Una vez que tengamos el resultado de la búsqueda el usuario podrá seleccionar 
 Con cada nueva búsqueda la lista de favoritos debe continuar visible en la pantalla y si alguna de las series favoritas aparece en la lista de resultados debe estar resaltada con otro color. 
 
 ## Extras:
-Borrar favoritos: al hacer clic sobre un icono al lado de cada favorito se borra de la    lista de favoritas, se elimina del local storage y deja de estar resaltada en la lista de resultados. 
+Borrar favoritos: al hacer clic sobre un icono al lado de cada favorito se borra de la lista de favoritas, se elimina del local storage y deja de estar resaltada en la lista de resultados. 
 Añadir la posibilidad de añadir/quitar de favoritos desde la lista de resultados. 
 Añadir un botón al final de la lista de favoritos que los borre todos a la vez.
 
