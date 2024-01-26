@@ -6,6 +6,7 @@ const resetBtn = document.querySelector(".js-reset-btn");
 const favoritesBtn = document.querySelector(".js-favorites-btn");
 const resultsList = document.querySelector(".js-results-list");
 const favoritesList = document.querySelector(".js-favorites-list");
+const noResults = document.querySelector(".js-no-results");
 let searchResults = [];
 let results = [];
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -14,7 +15,7 @@ const DEPRECATED_NO_IMAGE_URL =
   "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png";
 const NO_IMAGE_URL =
   "https://placehold.jp/24/5e63a1/ffffff/133x200.png?text=No%20Image%20Available";
-
+let apiPage = 1;
 
 function findFavorite(title) {
   return favorites.find((favorite) => favorite.title === title);
@@ -34,10 +35,10 @@ function renderFavorites(data) {
 
 function handleFavorite(id, title, img, event) {
   event.currentTarget.classList.add("results__card--fav");
-  const anime = { 
-    id: id, 
-    title: title, 
-    img: img 
+  const anime = {
+    id: id,
+    title: title,
+    img: img,
   };
   let alreadyFavorite = findFavorite(title);
   if (!alreadyFavorite) {
@@ -80,28 +81,59 @@ function renderResults(data) {
 function getList(data) {
   results = [];
   resultsList.innerHTML = "";
-  results = data.map((eachData) => {
-    const anime = {
-      id: eachData.mal_id,
-      title: eachData.titles[1].title,
-      img: eachData.images.webp.image_url,
-    };
-    if (anime.img === DEPRECATED_NO_IMAGE_URL) {
-      anime.img = NO_IMAGE_URL;
-    }
-    return anime;
-  });
-  renderResults(results);
+  if (searchResults.length === 0) {
+    noResults.classList.remove("hidden");
+  } else {
+    console.log(searchResults);
+    noResults.classList.add("hidden");
+    results = data.map((eachData) => {
+      const anime = {
+        id: eachData.mal_id,
+        title: eachData.titles[1].title,
+        img: eachData.images.webp.image_url,
+      };
+      if (anime.img === DEPRECATED_NO_IMAGE_URL) {
+        anime.img = NO_IMAGE_URL;
+      }
+
+      return anime;
+    });
+    renderResults(results);
+  }
+}
+
+function getNextPage(input, data) {
+  return fetch(API_URL + input + "&page=" + data)
+    .then((response) => response.json())
+    .then((info) => {
+      searchResults = searchResults.concat(info.data);
+    })
+    .catch((error) => console.error("Fetch error:", error));
 }
 
 function handleSearch(event) {
   event.preventDefault();
   const searchInput = userInput.value.toLowerCase();
-  fetch(API_URL + searchInput)
+  fetch(API_URL + searchInput + "&page=" + apiPage)
     .then((response) => response.json())
     .then((info) => {
       searchResults = info.data;
-      getList(searchResults);
+      const pages = info.pagination.has_next_page;
+      if (pages) {
+        let lastPage = info.pagination.last_visible_page;
+        const fetchPromises = [];
+        for (let i = 2; i <= lastPage; i++) {
+          apiPage = i;
+          fetchPromises.push(getNextPage(searchInput, apiPage));
+        }
+        Promise.all(fetchPromises)
+          .then(() => {
+            getList(searchResults);
+          })
+          .catch((error) => console.error("Fetch error:", error));
+      } else {
+        getList(searchResults);
+      }
     })
     .catch((error) => console.error("Fetch error:", error));
 }
@@ -169,3 +201,8 @@ function init() {
 }
 
 init();
+
+// length de results > 25 muestras botones
+// pintar botonoes
+// dividir entre 25 para q el entero de la division me marque numero de paginas
+// handleNext para mostras siguientes resultados

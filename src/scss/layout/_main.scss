@@ -60,6 +60,10 @@
   }
 }
 
+.page{
+  
+}
+
 .favorites {
   @include list-box();
   width: 50%;
@@ -106,6 +110,11 @@
   @media (min-width: 1024px) {
     width: 20%;
   }
+}
+
+.no-results{
+  font-family: $title;
+  padding-top: 15px;
 }
 
 .hidden {
