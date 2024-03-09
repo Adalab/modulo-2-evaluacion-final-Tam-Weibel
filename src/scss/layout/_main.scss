@@ -61,7 +61,18 @@
 }
 
 .page{
-  
+  padding-bottom: 10px;
+  &__arrow{
+    @include header-box();
+    width: 25px;
+    padding: 3px;
+    background-color: $blue;
+  }
+  &__number{
+    font-family: $text;
+    text-align: center;
+    padding: 3px;
+  }
 }
 
 .favorites {

@@ -88,7 +88,7 @@ function getList(data) {
     noResults.classList.add("hidden");
     results = data.map((eachData) => {
       const anime = {
-        id: eachData.mal_id,
+        id: eachData.mal_id || 0,
         title: eachData.titles[1].title,
         img: eachData.images.webp.image_url,
       };
